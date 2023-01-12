@@ -1,0 +1,4 @@
+# Obsidian
+
+## Community Plugins
+
