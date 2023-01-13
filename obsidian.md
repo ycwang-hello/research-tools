@@ -13,21 +13,21 @@ We can freely define auto-close, auto-correct with its Snippets. I also find its
 
 Snippets can be used to automatically close symbols for ~~strikethrough~~ (`~~strikethrough~~`), ==highlight== (`==highlight==`) and `%%comment%%`, which are not autoclosed in Obsidian. I define these snippets:
 
-```
+```ts
 {trigger: "==", replacement: "==$0==", options: "tAw", description: "highlight"}, 
 {trigger: "%%", replacement: "%%$0%%", options: "tAw", description: "comment"}, 
 {trigger: "~~", replacement: "~~$0~~", options: "tAw", description: "strikethrough"},
 ```
 
 I use these snippests to trigger inline math, displayed math and LaTeX environments, rather than the default ones, which trigger from combination of letters:
-```
+```ts
 {trigger: "\\(", replacement: "$$0$", options: "tA"},
 {trigger: "\\[", replacement: "$$\n$0\n$$", options: "tAw"},
 {trigger: "\\begin{", replacement: "\\begin{$0}\n$1\n\\end{$0}", options: "mA"},
 ```
 
 I do not like triggering replacements with certain combinations of lettters, nor do I like triggering it with Tab. I would like an experience of calling LaTeX commands. With the below snippet, we can, e.g., type `\red{` + `text` + Tab to get red <font color='red'>text</font> (`<font color='red'>text</font>`).
-```
+```ts
 // colors in text
 {trigger: "\\red{", replacement: "<font color='red'>$0</font>$1", options: "tAw", description: "red"},
 {trigger: "\\blue{", replacement: "<font color='blue'>$0</font>$1", options: "tAw", description: "blue"},
@@ -40,15 +40,15 @@ I do not like triggering replacements with certain combinations of lettters, nor
 ```
 Looks nice!
 
-The default snippets defined by the Latex Suite authors serve as a good example of how we can implement AutoCorrect supported in MS Word:
-```
+The default snippet defined by the Latex Suite authors serves as a good example of how we can implement AutoCorrect supported in MS Word:
+```ts
 // Dashes
 {trigger: "--", replacement: "–", options: "tA"},
 {trigger: "–-", replacement: "—", options: "tA"},
 {trigger: "—-", replacement: "---", options: "tA"},
 ```
 Let's implement this:
-```
+```ts
 {trigger: "...", replacement: "…", options: "tA"},
 ```
 
