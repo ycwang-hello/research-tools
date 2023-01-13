@@ -26,6 +26,20 @@ I use these snippests to trigger inline math, displayed math and LaTeX environme
 {trigger: "\\begin{", replacement: "\\begin{$0}\n$1\n\\end{$0}", options: "mA"},
 ```
 
+I do not like triggering replacements with certain combinations of lettters, nor do I like triggering it with Tab. I would like an experience of calling LaTeX commands. With the below snippet, we can, e.g., type `\red{` + `text` + Tab to get red <font color='red'>text</font> (`<font color='red'>text</font>`).
+```
+// colors in text
+{trigger: "\\red{", replacement: "<font color='red'>$0</font>$1", options: "tAw", description: "red"},
+{trigger: "\\blue{", replacement: "<font color='blue'>$0</font>$1", options: "tAw", description: "blue"},
+{trigger: "\\color{", replacement: "<font color='$0'>$1</font>$2", options: "tAw", description: "text color"},
+
+// colors in math
+{trigger: "\\red{", replacement: "\\textcolor{red}{$0}", options: "mA", description: "red"},
+{trigger: "\\blue{", replacement: "\\textcolor{blue}{$0}", options: "mA", description: "blue"},
+{trigger: "\\color{", replacement: "\\textcolor{$0}{$1}", options: "mA", description: "color"},
+```
+Looks nice!
+
 The default snippets defined by the Latex Suite authors serve as a good example of how we can implement AutoCorrect supported in MS Word:
 ```
 // Dashes
