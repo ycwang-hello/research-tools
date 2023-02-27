@@ -1,0 +1,103 @@
+% This file is distributed under Creative Commons CC BY-SA.
+
+% for TeXstudio: delete space after ! for Chinese
+% ! TeX spellcheck = <none> 
+
+\documentclass[12pt]{article}
+
+%\usepackage{ctex} % comment this for English
+\usepackage{geometry}
+%\usepackage{xstring}
+\usepackage{xeCJK}
+\setCJKmainfont{SimSun} % uncomment this for English
+\usepackage{amsmath}
+%\usepackage[intlimits]{amsmath}
+\usepackage{siunitx}
+\usepackage[breaklinks,colorlinks,linkcolor=black,citecolor=black,urlcolor=black]{hyperref}
+\usepackage{easyReview}
+\usepackage{subfigure}
+\usepackage{lscape}
+\usepackage{CJKfntef} %汉字加点等格式
+\usepackage{bm}
+\usepackage{amssymb}
+\usepackage{esint}
+\usepackage{mathrsfs} %Raph Smith’s Formal Script font
+\usepackage{appendix}
+%\usepackage{xcolor}
+\usepackage{physics}
+%\usepackage{tensor}
+\usepackage{cases}
+
+\geometry{a4paper,scale=0.8}
+
+% if my draft, use these:
+\def\deleted#1{\textcolor{green}{#1}}
+\def\notes#1{\textcolor{red}{[NOTE: #1]}}
+\def\blue#1{\textcolor{blue}{#1}}
+\def\red#1{\textcolor{red}{#1}}
+
+% if public, uncomment these to overwrite:
+%\renewcommand{\deleted}[1]{}
+%\renewcommand{\notes}[1]{}
+%\renewcommand{\blue}{{}}
+%\renewcommand{\red}{{}}
+
+% \def\eqblue#1{\text{\blue{$#1$}}}
+% \def\eqred#1{\text{\red{$#1$}}}
+
+%\numberwithin{equation}{section}
+
+\def\myrule{\vspace{0.3cm}
+\hrule
+\vspace{0.3cm}}
+%\def\mydashedrule{\vspace{0.3cm}
+%	\dashedhrule
+%	\vspace{0.3cm}}
+\def\mydoublerule{\vspace{0.5cm}
+\hrule
+\vspace{-0.08cm}
+\hrule
+\vspace{0.5cm}}
+
+\def\kai{\CJKfontspec{KaiTi}}
+
+% Boris's solution at https://tex.stackexchange.com/questions/68272/make-section-headings-invisible/68296#68296
+\newcommand\invisiblesection[1]{%
+\refstepcounter{section}%
+\addcontentsline{toc}{section}{\protect\numberline{\thesection}#1}%
+\sectionmark{#1}}
+
+\let\id\indices
+
+% math symbols
+\def\e{\ensuremath{\mathrm{e}}}
+\def\i{\ensuremath{\mathrm{i}}}
+\def\vp{\ensuremath{\varphi}}
+\def\ve{\ensuremath{\varepsilon}}
+\def\mean#1{\ensuremath{\left\langle#1\right\rangle}}
+
+% operators
+\def\d{\ensuremath{\mathrm{d}}}
+\newcommand{\pp}[3][{}]{\ensuremath{{\frac{\partial^{#1} {#2}}{\partial {#3}^{#1}}}}}
+\newcommand{\der}[3][{}]{\ensuremath{\frac{\d^{#1} {#2}}{\d {#3}^{#1}}}}
+\def\ppp#1#2#3{\ensuremath{\left(\pp{#1}{#2}\right)_{#3}}}
+\def\jaco#1#2#3#4{\pp{\left(#1, #2\right)}{\left(#3, #4\right)}} % Jacobian
+
+% GR
+\def\ppxu#1#2{\ensuremath{\pp{x'^{#1}}{x^{#2}}}}
+\def\ppxd#1#2{\ensuremath{\pp{x^{#1}}{x'^{#2}}}}
+\def\ppx#1#2{\ensuremath{\pp{x^{#1}}{x^{#2}}}}
+\let\p\partial
+
+% Chinese characters
+\let\udot\CJKunderdot
+
+\begin{document}
+\author{}
+\title{}
+\maketitle
+
+% text starts here
+
+
+\end{document}

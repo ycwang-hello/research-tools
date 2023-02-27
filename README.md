@@ -5,3 +5,6 @@ This is not meant to be an objective review: the content is highly subjective an
 
 List of my notes:
 - [Obsidian](obsidian.md), a note-taking software ([official site](https://obsidian.md/)).
+
+Other resources:
+- My LaTeX templates.
