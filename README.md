@@ -7,4 +7,6 @@ List of my notes:
 - [Obsidian](obsidian.md), a note-taking software ([official site](https://obsidian.md/)).
 
 Other resources:
-- My LaTeX templates.
+- LaTeX:
+  - My LaTeX templates.
+  - My Python script `latexport.py`, which helps you prepare a minimum working set of LaTeX files (everything into a zip file without subdirectories). See [LaTeX/README.md](LaTeX/README.md) for more information.
