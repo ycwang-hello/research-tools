@@ -23,12 +23,14 @@ r'''## The configuration file consists of lines of options.
 # add filepath # filepath is RELATIVE TO THE MAIN TEX FILE.
 
 ## [replace] text replacement
-# replace <pattern> <replacement> # Replace <pattern> to <replacement> in the merged tex file. Regular expressions are supported. Here '.' matches any character INCLUDING A NEW LINE.
+# replace <pattern> <replacement> # Replace <pattern> to <replacement> in the merged tex file. 
+# Regular expressions are supported. Here '.' matches any character INCLUDING A NEW LINE.
+# This script supports a '\c<number>c' synctex, which will be converted to the regular expression that matches text with up to <number> level(s) of balanced '{}'. For example, '\c0c' only matches text without '{' or '}', '\c1c' can also match something like 'text{text}text', '\c2c' can also match something like 'text{text{text}text}text', etc.
 # here are some examples:
-# replace \\added\{(?P<added_txt>.*?)\} \g<added_txt>  # \added{<added_txt>} -> <added_txt>
-# replace \\deleted\{(?P<deleted_txt>.*?)\}  # \deleted{<deleted_txt>} -> 
-# replace \\replaced\{(?P<old_txt>.*?)\}\{(?P<replaced_txt>.*?)\} \g<replaced_txt>  # \replaced{<old_txt>}{<replaced_txt>} -> <replaced_txt>
-# replace \\explain\{(?P<explain_txt>.*?)\}  # \explain{<explain_txt>} -> 
+# replace \\added\{(?P<added_txt>\c5c)\} \g<added_txt>  # \added{<added_txt>} -> <added_txt>
+# replace \\replaced\{(?P<old_txt>\c5c)\}\{(?P<replaced_txt>\c5c)\} \g<replaced_txt>  # \replaced{<old_txt>}{<replaced_txt>} -> <replaced_txt>
+# replace ^[\ \t]*\\deleted\{(?P<deleted_txt_>\c5c)\}[\ \t]*(\r\n|\r|\n)|\\deleted\{(?P<deleted_txt>\c5c)\}  # \deleted{<deleted_txt>} ->  # note: if the only content on a line is '\deleted{<deleted_txt>}', remove this line altogether
+# replace ^[\ \t]*\\explain\{(?P<explain_txt_>\c5c)\}[\ \t]*(\r\n|\r|\n)|\\explain\{(?P<explain_txt>\c5c)\}  # \explain{<explain_txt>} ->  # note: if the only content on a line is '\explain{<explain_txt>}', remove this line altogether
 '''
 
 # define arguments
@@ -72,11 +74,21 @@ if '--expand-bbl' not in args.params and not args.bibtex:
     args.params += f' --expand-bbl {bblfile}'
 
 # parse config
+def gen_curly_balanced_match(recursive_level=1):
+    s = '.*' # a placeholder
+    for _ in range(recursive_level):
+        s = s.replace('.*', r'([^{}]|\{.*\})*')
+    s = s.replace('.*', '[^{}]*')
+    return s
+def rep(matchobj):
+    return gen_curly_balanced_match(int(matchobj.group('level')))
+
 add_files = []
 replacements = []
 for line in config:
     line = line.split('#')[0]
     line = [re.sub(r'\\(\s)', r'\1', s) for s in re.split(r'(?<!\\)\s+', line)]
+    line = [re.sub(r'\\c(?P<level>[0-9]+)c', rep, s) for s in line]
     if line[0] == 'add':
         add_files.append(line[1])
         print(f"added file '{line[1]}'")
@@ -111,7 +123,6 @@ def move(relpath, f, ext='.*', prefix=''):
         newpath += '.' + path.split('.')[-1]
     f.write(path, arcname=newpath)
 
-
 with ZipFile(args.out, 'w', compression=ZIP_DEFLATED) as f:
     # cls file
     try:
@@ -145,7 +156,7 @@ with ZipFile(args.out, 'w', compression=ZIP_DEFLATED) as f:
 
     # replacements in config
     for pattern, repl in replacements:
-        maintex = re.sub(pattern, repl, maintex, flags=re.DOTALL)
+        maintex = re.sub(pattern, repl, maintex, flags=re.DOTALL|re.MULTILINE)
     
     with f.open(os.path.basename(args.file), mode='w') as texf:
         texf.write(maintex.encode())
